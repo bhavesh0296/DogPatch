@@ -33,6 +33,7 @@ class ListingsViewControllerTests: XCTestCase {
   
   // MARK: - Instance Properties
   var sut: ListingsViewController!
+  var mockNetworkClient: MockDogPatchService!
   var partialMock: PartialMockListingsViewController {
     return sut as! PartialMockListingsViewController
   }
@@ -46,6 +47,7 @@ class ListingsViewControllerTests: XCTestCase {
   
   override func tearDown() {
     sut = nil
+    mockNetworkClient = nil
     super.tearDown()
   }
   
@@ -87,6 +89,11 @@ class ListingsViewControllerTests: XCTestCase {
       return dog
     }
   }
+
+  func givenMockNetworkClient() {
+    mockNetworkClient = MockDogPatchService()
+    sut.networkClient = mockNetworkClient
+  }
   
   // MARK: - When
   func whenDequeueTableViewCells() -> [UITableViewCell] {
@@ -107,6 +114,13 @@ class ListingsViewControllerTests: XCTestCase {
   }
   
   // MARK: - Instance Properties - Tests
+
+  func test_networkClient_setToDogPatchClient() {
+    XCTAssertTrue((sut.networkClient as? DogPatchClient ) === DogPatchClient.shared)
+    
+  }
+
+
   func test_viewModels_setToEmptyArray() {
     XCTAssertEqual(sut.viewModels.count, 0)
   }
@@ -159,6 +173,108 @@ class ListingsViewControllerTests: XCTestCase {
     
     // then
     waitForExpectations(timeout: 0.0)
+  }
+
+  func test_refreshData_setsRequest() {
+    // given
+//    let mockNetworkClient = MockDogPatchService()
+//    sut.networkClient = mockNetworkClient
+    givenMockNetworkClient()
+
+    // when
+    sut.refreshData()
+
+    // then
+    XCTAssertEqual(sut.dataTask, mockNetworkClient.getDogsDataTask)
+  }
+
+  func test_refreshData_ifAlreadyRefreshing_doesntCallAgain() {
+    // given
+//    let mockNetworkClient = MockDogPatchService()
+//    sut.networkClient = mockNetworkClient
+    givenMockNetworkClient()
+
+    // when
+    sut.refreshData()
+    sut.refreshData()
+
+    // then
+    XCTAssertEqual(mockNetworkClient.getDogsCallCount, 1)
+  }
+
+  func test_refreshData_completionNilDataTask() {
+    // given
+    givenMockNetworkClient()
+    let dogs = givenDogs()
+
+    // when
+    sut.refreshData()
+
+    mockNetworkClient.getDogsCompletion(dogs, nil)
+
+    // then
+    XCTAssertNil(sut.dataTask)
+  }
+
+  func test_refreshData_givenDogsResponse_setViewModels() {
+    // given
+    givenMockNetworkClient()
+    let dogs = givenDogs()
+    let viewModels = dogs.map { DogViewModel(dog: $0) }
+
+    // when
+    sut.refreshData()
+    mockNetworkClient.getDogsCompletion(dogs, nil)
+
+    // then
+      XCTAssertEqual(sut.viewModels, viewModels)
+  }
+
+  func test_refreshData_givenDogResponse_reloadsTableView() {
+    // given
+    givenMockNetworkClient()
+    let dogs = givenDogs()
+
+    class MockTableView: UITableView {
+      var calledReloadData = false
+      override func reloadData() {
+        calledReloadData = true
+      }
+    }
+
+    let mockTableView = MockTableView()
+    sut.tableView = mockTableView
+
+    // when
+    sut.refreshData()
+    mockNetworkClient.getDogsCompletion(dogs, nil)
+
+    // then
+    XCTAssertTrue(mockTableView.calledReloadData)
+  }
+
+  func test_refreshData_beginRefreshing() {
+    // given
+    givenMockNetworkClient()
+
+    // when
+    sut.refreshData()
+
+    // then
+    XCTAssertTrue(sut.tableView.refreshControl!.isRefreshing)
+  }
+
+  func test_refreshData_givenDogResponse_endsRefreshing() {
+    // given
+    givenMockNetworkClient()
+    let dogs = givenDogs()
+
+    // when
+    sut.refreshData()
+    mockNetworkClient.getDogsCompletion(dogs, nil)
+
+    // then
+    XCTAssertFalse(sut.tableView.refreshControl!.isRefreshing)
   }
   
   // MARK: - UITableViewDataSource Tests
@@ -236,6 +352,7 @@ class ListingsViewControllerTests: XCTestCase {
       XCTAssertTrue(viewModel.configuredCell === cell) // pointer equality
     }
   }
+  
 }
 
 // MARK: - Mocks

@@ -361,6 +361,41 @@ class DogPatchClientTests: XCTestCase {
     verifyGetDogsDispatchedToMain(data: data)
   }
 
+  func test_conformsTo_DogPathService() {
+    XCTAssertTrue((sut as AnyObject) is DogPatchService)
+  }
+
+  func test_dogPatchService_declaresGetDogs() {
+    // given
+    let service = sut as DogPatchService
+
+    // then
+    _ = service.getDogs() {_, _ in }
+  }
+
+  func test_shared_setsBaseURL() {
+    // given
+    let baseURL = URL(string: "https://dogpatchserver.herokuapp.com/api/v1/")
+
+    // then
+    XCTAssertEqual(DogPatchClient.shared.baseURL, baseURL)
+  }
+
+  func test_shared_setSession() {
+    // given
+    let session = URLSession.shared
+
+    // then
+    XCTAssertEqual(DogPatchClient.shared.session, session)
+  }
+
+  func test_shared_setResponseQueue() {
+    // given
+    let responseQueue = DispatchQueue.main
+
+    // then
+    XCTAssertEqual(DogPatchClient.shared.responseQueue, responseQueue)
+  }
 }
 
 class MockURLSession: URLSession {
