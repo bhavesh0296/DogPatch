@@ -37,17 +37,21 @@ class ListingsViewControllerTests: XCTestCase {
   var partialMock: PartialMockListingsViewController {
     return sut as! PartialMockListingsViewController
   }
+  var mockImageClient: MockImageService!
   
   // MARK: - Test Lifecycle
   override func setUp() {
     super.setUp()
     sut = ListingsViewController.instanceFromStoryboard()
+    mockImageClient = MockImageService()
+    sut.imageClient = mockImageClient
     sut.loadViewIfNeeded()
   }
   
   override func tearDown() {
     sut = nil
     mockNetworkClient = nil
+    mockImageClient = nil
     super.tearDown()
   }
   
@@ -102,6 +106,12 @@ class ListingsViewControllerTests: XCTestCase {
       return sut.tableView(sut.tableView, cellForRowAt: indexPath)
     }
   }
+
+  @discardableResult
+  func whenDequeueFirstListingCell() -> ListingTableViewCell? {
+    let indexPath = IndexPath(row: 0, section: 0)
+    return sut.tableView(sut.tableView, cellForRowAt: indexPath) as? ListingTableViewCell
+  }
   
   // MARK: - Outlets - Tests
   func test_tableView_onSet_registersErrorTableViewCell() {
@@ -126,6 +136,19 @@ class ListingsViewControllerTests: XCTestCase {
   }
   
   // MARK: - View Life Cycle - Tests
+  func test_imageClient_isImageService() {
+    XCTAssertTrue((sut.imageClient as AnyObject) is ImageService)
+  }
+
+  func test_imageClient_setToSharedImageClient() {
+    // given
+    let expected = ImageClient.shared
+    sut = ListingsViewController.instanceFromStoryboard()
+
+    // then
+    XCTAssertTrue((sut.imageClient as? ImageClient) === expected)
+  }
+
   func test_viewDidLoad_setsRefreshControlAttributedTitle() throws {
     // when
     sut.viewDidLoad()
@@ -381,4 +404,44 @@ extension ListingsViewControllerTests {
       onRefreshData()
     }
   }
+
+  func test_tableViewCellForRowAt_callsImageClientSetImageWithDogImageView() {
+    // given
+    givenMockViewModels()
+
+    // when
+//    let indexPath = IndexPath(row: 0, section: 0)
+//    let cell = sut.tableView(sut.tableView, cellForRowAt: indexPath) as? ListingTableViewCell
+    let cell = whenDequeueFirstListingCell()
+
+    // then
+    XCTAssertEqual(mockImageClient.receivedImageView, cell?.dogImageView)
+  }
+
+  func test_tableViewCellForRowAt_callsImageClient_setsImageWithURL() {
+    // given
+    givenMockViewModels()
+    let viewModel = sut.viewModels.first!
+
+    // when
+//    let indexPath = IndexPath(row: 0, section: 0)
+//    _ = sut.tableView(sut.tableView, cellForRowAt: indexPath)
+    whenDequeueFirstListingCell()
+
+    // then
+    XCTAssertEqual(mockImageClient.receivedURL, viewModel.imageURL)
+  }
+
+  func test_tableViewCellForRowAt_callsImageClientWithPlaceholder() {
+    // given
+    givenMockViewModels()
+    let placeholder = UIImage(named: "image_placeholder")!
+
+    // when
+    whenDequeueFirstListingCell()
+
+    // then
+    XCTAssertEqual(mockImageClient.receivedPlaceholder.pngData(), placeholder.pngData())
+  }
+
 }

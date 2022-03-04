@@ -46,6 +46,11 @@ class ListingsViewController: UIViewController {
 
   var networkClient: DogPatchService = DogPatchClient.shared
   var dataTask: URLSessionDataTask?
+//  var imageClient: ImageService = ImageClient(responseQueue: nil,
+//                                              session: URLSession())
+
+  var imageClient: ImageService = ImageClient.shared
+
   
   // MARK: - View Life Cycle
   override func viewDidLoad() {
@@ -108,6 +113,9 @@ extension ListingsViewController: UITableViewDataSource {
     let cell = tableView.dequeueReusableCell(withIdentifier: ListingTableViewCell.identifier) as! ListingTableViewCell
     let viewModel = viewModels[indexPath.row]
     viewModel.configure(cell)
+    imageClient.setImage(on: cell.dogImageView,
+                         fromURL: viewModel.imageURL,
+                         withPlaceholder: UIImage(named: "image_placeholder"))
     return cell
   }
 }

@@ -8,8 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		4019C64427CBD9CD00014F81 /* DogPatchClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4019C64327CBD9CD00014F81 /* DogPatchClientTests.swift */; };
+		406909B327CEDD9200FBDCCB /* ImageClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406909B227CEDD9200FBDCCB /* ImageClient.swift */; };
+		406909B527CEDEE700FBDCCB /* ImageClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406909B427CEDEE700FBDCCB /* ImageClientTests.swift */; };
+		406909B727CEE12D00FBDCCB /* MockSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406909B627CEE12D00FBDCCB /* MockSession.swift */; };
+		406909B927CEE16600FBDCCB /* MockURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406909B827CEE16600FBDCCB /* MockURLSessionDataTask.swift */; };
 		40AD604827CDEE4000D1FDAC /* MockDogPatchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40AD604727CDEE4000D1FDAC /* MockDogPatchService.swift */; };
 		40B38E7B27C85ADD002B6384 /* DogPatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B38E7A27C85ADD002B6384 /* DogPatch.swift */; };
+		40F19A9027D1959A00784632 /* MockImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F19A8F27D1959A00784632 /* MockImageService.swift */; };
 		420A276322E4859A00ECCA13 /* GET_Dogs_Response.json in Resources */ = {isa = PBXBuildFile; fileRef = 420A276222E4859A00ECCA13 /* GET_Dogs_Response.json */; };
 		420A276522E485C000ECCA13 /* Data+JSONFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420A276422E485C000ECCA13 /* Data+JSONFile.swift */; };
 		4213CCA0221738DF0047BA3D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4213CC9F221738DF0047BA3D /* AppDelegate.swift */; };
@@ -69,8 +74,13 @@
 
 /* Begin PBXFileReference section */
 		4019C64327CBD9CD00014F81 /* DogPatchClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogPatchClientTests.swift; sourceTree = "<group>"; };
+		406909B227CEDD9200FBDCCB /* ImageClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageClient.swift; sourceTree = "<group>"; };
+		406909B427CEDEE700FBDCCB /* ImageClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageClientTests.swift; sourceTree = "<group>"; };
+		406909B627CEE12D00FBDCCB /* MockSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSession.swift; sourceTree = "<group>"; };
+		406909B827CEE16600FBDCCB /* MockURLSessionDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSessionDataTask.swift; sourceTree = "<group>"; };
 		40AD604727CDEE4000D1FDAC /* MockDogPatchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDogPatchService.swift; sourceTree = "<group>"; };
 		40B38E7A27C85ADD002B6384 /* DogPatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogPatch.swift; sourceTree = "<group>"; };
+		40F19A8F27D1959A00784632 /* MockImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockImageService.swift; sourceTree = "<group>"; };
 		420A276222E4859A00ECCA13 /* GET_Dogs_Response.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = GET_Dogs_Response.json; sourceTree = "<group>"; };
 		420A276422E485C000ECCA13 /* Data+JSONFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+JSONFile.swift"; sourceTree = "<group>"; };
 		4213CC9C221738DF0047BA3D /* DogPatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DogPatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -144,6 +154,7 @@
 			isa = PBXGroup;
 			children = (
 				4019C64327CBD9CD00014F81 /* DogPatchClientTests.swift */,
+				406909B427CEDEE700FBDCCB /* ImageClientTests.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -152,6 +163,9 @@
 			isa = PBXGroup;
 			children = (
 				40AD604727CDEE4000D1FDAC /* MockDogPatchService.swift */,
+				406909B627CEE12D00FBDCCB /* MockSession.swift */,
+				406909B827CEE16600FBDCCB /* MockURLSessionDataTask.swift */,
+				40F19A8F27D1959A00784632 /* MockImageService.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -160,6 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				40B38E7A27C85ADD002B6384 /* DogPatch.swift */,
+				406909B227CEDD9200FBDCCB /* ImageClient.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -617,6 +632,7 @@
 				4270357322B6FA98001080B1 /* ListingCell.swift in Sources */,
 				42D837BE22B6DAD50036C5DD /* User.swift in Sources */,
 				42335BEF22BD166800E21A72 /* UIView+ApplyShadow.swift in Sources */,
+				406909B327CEDD9200FBDCCB /* ImageClient.swift in Sources */,
 				9581B4B12316F35D00A78286 /* UIView+NibCreatable.swift in Sources */,
 				42335BF822BD1D7A00E21A72 /* UITableViewCell+Identifier.swift in Sources */,
 				9581B4B22316F35D00A78286 /* NibCreatable.swift in Sources */,
@@ -637,12 +653,16 @@
 				424E576922E0B1C600C96D45 /* DogTests.swift in Sources */,
 				42335BF222BD179600E21A72 /* UIView+ApplyShaddowTests.swift in Sources */,
 				9581B4B72316F44400A78286 /* LogoNavigationItemTests.swift in Sources */,
+				406909B927CEE16600FBDCCB /* MockURLSessionDataTask.swift in Sources */,
 				40AD604827CDEE4000D1FDAC /* MockDogPatchService.swift in Sources */,
 				424E577A22E0C47A00C96D45 /* XCTAssertEqualToAny.swift in Sources */,
 				42A255A522BD0E7600C744D9 /* UIViewController+StoryboardCreatableTests.swift in Sources */,
+				40F19A9027D1959A00784632 /* MockImageService.swift in Sources */,
 				427CCB0822BC73AC00F92FF7 /* UIViewController+NibCreatableTests.swift in Sources */,
 				9581B4B92316F48E00A78286 /* DecodableTestCase.swift in Sources */,
+				406909B527CEDEE700FBDCCB /* ImageClientTests.swift in Sources */,
 				424E577E22E0D10C00C96D45 /* DogViewModelTests.swift in Sources */,
+				406909B727CEE12D00FBDCCB /* MockSession.swift in Sources */,
 				4261B59A22D74CF500E5824D /* UITableViewCell+Identifier.swift in Sources */,
 				4019C64427CBD9CD00014F81 /* DogPatchClientTests.swift in Sources */,
 				424E578822E0D87200C96D45 /* TimeInterval+Calendar.swift in Sources */,
